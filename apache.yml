@@ -1,0 +1,18 @@
+---
+- hosts: all
+  become_user: root
+  tasks:
+        - name: install apache 
+          apt: name=apache2 state=present update_cache=yes
+        - name: install php5
+          apt: name=php5-gd state=present
+        - name: install dependancy lib
+          apt: name=libgd2-xpm-dev state=present
+        - name: install libapache
+          apt: name=libapache2-mod-php5 state=present
+
+        - name: Activate Apache cgi  on Ubuntu 14.04 
+          file: src=/etc/apache2/mods-available/cgi.load dest=/etc/apache2/mods-enabled/cgi.load state=link owner=root group=root
+
+        - name: http service state
+          service: name=apache2 state=started enabled=yes
